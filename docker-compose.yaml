@@ -1,0 +1,28 @@
+services:
+  master:
+    container_name: master
+    build:
+      context: ./master-config
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: bestportal
+    volumes:
+      # - D:/Projects/mysql-docker/data:/var/lib/mysql
+      - ./master-config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
+
+  slave:
+    container_name: slave
+    build:
+      context: ./slave-config
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    volumes:
+      - ./slave-config:/etc/mysql/conf.d
+    ports:
+      - "3307:3306"
+
+networks:
+  default:
+    driver: bridge
