@@ -7,8 +7,8 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: bestportal
     volumes:
-      # - D:/Projects/mysql-docker/data:/var/lib/mysql
-      - ./master-config:/etc/mysql/conf.d
+      - ./master-data:/var/lib/mysql
+      - ./forquery:/forquery
     ports:
       - "3306:3306"
 
@@ -18,10 +18,10 @@ services:
       context: ./slave-config
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
-    volumes:
-      - ./slave-config:/etc/mysql/conf.d
     ports:
       - "3307:3306"
+    depends_on:
+      - master
 
 networks:
   default:
